@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday</title>
+
+  <!-- MOBİL -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Source Serif 4', serif;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #1b2a38, #0b141c);
+      color: #e6e6e6;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .page {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 24px;
+      transition: opacity 0.8s ease;
+    }
+
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeIn 2.5s ease forwards;
+    }
+
+    p {
+      max-width: 620px;
+      line-height: 1.7;
+      font-size: clamp(1rem, 4.5vw, 1.15rem);
+      color: #d0d8dd;
+      opacity: 0;
+      animation: fadeIn 3s ease forwards;
+      animation-delay: 0.8s;
+    }
+
+    button {
+      margin-top: 40px;
+      padding: 14px 34px;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      background: transparent;
+      color: #e6e6e6;
+      border: 1px solid #6c8aa3;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #6c8aa3;
+      color: #0b141c;
+    }
+
+    .divider {
+      width: 90px;
+      height: 2px;
+      background: #6c8aa3;
+      margin: 24px 0;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards;
+      animation-delay: 0.4s;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .confetti {
+      position: absolute;
+      width: 8px;
+      height: 14px;
+      top: -20px;
+      animation: fall linear infinite;
+      opacity: 0.85;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+      }
+    }
+
+    #secretMessage {
+      position: absolute;
+      bottom: 60px;
+      padding: 0 16px;
+      font-size: clamp(0.95rem, 4vw, 1.1rem);
+      font-style: italic;
+      letter-spacing: 0.5px;
+      color: rgba(230,230,230,0.75);
+      opacity: 0;
+      transition: opacity 4s ease;
+      pointer-events: none;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- MÜZİK -->
+  <audio id="bgMusic" loop playsinline>
+    <source src="love-on-the-brain.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- SAYFA 1 -->
+  <div class="page" id="page1">
+    <h1>Happy Birthday!</h1>
+    <div class="divider"></div>
+    <p>Bugün senin günün.</p>
+    <button onclick="goNext()">Devam Et</button>
+  </div>
+
+  <!-- SAYFA 2 -->
+  <div class="page hidden" id="page2">
+    <h1>Bugün Senin Günün</h1>
+    <div class="divider"></div>
+    <p>
+      Gün içinde benden <strong>3 şey</strong> isteyebilirsin.<br><br>
+      Ne olduğu sana kalmış.<br>
+      Küçük ya da büyük…<br>
+      Sınırları sen belirleyebilirsin.<br><br>
+      Sendeyim.
+    </p>
+  </div>
+
+  <!-- GİZLİ MESAJ -->
+  <div id="secretMessage">
+    And babe, im fistfighting with fire. Just to get close to you.. Can we burn something, babe?
+  </div>
+
+  <script>
+    const music = document.getElementById('bgMusic');
+    music.volume = 0.3;
+
+    function goNext() {
+      // Sayfa geçişi
+      document.getElementById('page1').classList.add('hidden');
+      document.getElementById('page2').classList.remove('hidden');
+
+      // MÜZİĞİ BAŞLAT (mobil uyumlu)
+      music.play();
+
+      // 18 SANİYE SONRA GİZLİ MESAJ
+      setTimeout(() => {
+        document.getElementById('secretMessage').style.opacity = '1';
+      }, 18000);
+    }
+
+    // Konfeti
+    const colors = ['#d4af37', '#c0c0c0', '#8faadc'];
+    for (let i = 0; i < 90; i++) {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + 'vw';
+      confetti.style.animationDuration = (3 + Math.random() * 4) + 's';
+      confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+      document.body.appendChild(confetti);
+    }
+  </script>
+
+</body>
+</html>
